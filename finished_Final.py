@@ -10,7 +10,7 @@ class Player: # ----Player Class----
         self.playerHeight = 60
         self.playerX = (self.screenWidth // 2) - (self.playerWidth // 2)
         self.playerY = self.screenHeight - self.playerHeight - 10
-        self.playerSpeed = 5
+        self.playerSpeed = 6
         self.image = pygame.image.load("player_ship.png") # --- Loading the player image
         self.image = pygame.transform.scale(self.image, (self.playerWidth, self.playerHeight)) # --- Scales the player to the correct size
 
@@ -28,15 +28,22 @@ class Projectile: # ----Missile Class----
     def __init__(self, playerWidth, playerHeight):
         self.missileWidth = 5
         self.missileHeight = 10
-        self.missileSpeed = 7
+        self.missileSpeed = 8
         self.missiles = []
         self.playerWidth = playerWidth
         self.playerHeight = playerHeight
         self.image = pygame.image.load("laser.png") # --- Loading the missile image
         self.image = pygame.transform.scale(self.image, (self.missileWidth, self.missileHeight)) # --- Scales the missile to the correct size
+        self.lastShot =  0
+        self.fireDelay = 300 # --- minimum amount of shots that can be fired via
+
     
     def fire(self, event, p_x, p_y):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:   # --- Checking if the space bar is pressed and if the event is a keydown event
+            now = pygame.time.get_ticks()
+            if now - self.lastShot < self.fireDelay:
+                return
+            self.lastShot = now
             m_x = p_x + (self.playerWidth // 2) - (self.missileWidth // 2)
             m_y = p_y
             newMissile = pygame.Rect(m_x, m_y, self.missileWidth, self.missileHeight) # --- Calculating the x and y position of the missile based on the player's position and the missile's width and height
@@ -53,14 +60,14 @@ class Projectile: # ----Missile Class----
             
 class Enemy: # ----Enemy Class ----
     def __init__(self, worldWidth, worldHeight):
-        self.enemyWidth = 50
-        self.enemyHeight = 60
-        self.enemySpeed = 2
+        self.enemyWidth = (125 // 3)
+        self.enemyHeight = 50
+        self.enemySpeed = float(4.5)
         self.enemies = []
         self.worldWidth = worldWidth
         self.worldHeight = worldHeight
         self.enemyTimer = 0
-        self.enemySpawnRate = 2000  # --- Number of frames between enemy spawns; spawns every 2 seconds at 60 fps
+        self.enemySpawnRate = random.choice(range(1750, 2001, 4))  # --- Number of frames between enemy spawns; spawns every 2 seconds at 60 fps
 
     def spawn(self, currentTime): # --- Creating Spawn function to spawn enemies at random x positions at the top of the screen
         if currentTime - self.enemyTimer > self.enemySpawnRate: # --- Spawning an enemy at a random x position at the top of the screen
@@ -99,6 +106,7 @@ class GameWindow: # ---- Game Window Class ----
 
         # --- State of the game; scoring system/display font
         self.score = 0 # --- Create a score variable to keep track of the player's score
+        self.difficultyLevel = 0
         self.is_running = True
         self.font = pygame.font.SysFont("Crimson Pro", 26) # --- Create a font object for displaying the score
     
@@ -114,6 +122,7 @@ class GameWindow: # ---- Game Window Class ----
 
                 if self.is_running: # --- Updating positions of player, missiles, and enemies only if the game is running
                     self.player.move() 
+                    self.projectile.fire(event, self.player.playerX, self.player.playerY)
                     self.projectile.move() # --- Calling the move function to move the missiles
 
                     currentTime = pygame.time.get_ticks() # --- Getting the current time in milliseconds since the game started
@@ -125,7 +134,7 @@ class GameWindow: # ---- Game Window Class ----
                             if missile.colliderect(enemy):
                                 self.projectile.missiles.remove(missile)
                                 self.enemy.enemies.remove(enemy)
-                                self.score += 1
+                                self.score += 10
                                 break
                     
                     p_rect = pygame.Rect(self.player.playerX, self.player.playerY, self.player.playerWidth, self.player.playerHeight)
@@ -133,8 +142,22 @@ class GameWindow: # ---- Game Window Class ----
                         if self.detectCollisions(p_rect, enemy):
                             self.is_running = False # --- If the player collides with an enemy, the game stops running 
 
-                self.screen.fill((0, 0, 0)) # --- Filling the screen with a black color
+                        if  self.score >= 1000 and self.difficultyLevel < 1: # --- difficulty increases
+                            self.difficultyLevel = 1
+                            self.projectile.fireDelay = 230
+                            self.enemy.enemySpeed = float(5.3)
+                            self.enemy.enemySpawnRate = random.choice(range(750, 1325, 20))
+                            self.score += 15
+                    
+                        if  self.score >= 5000 and self.difficultyLevel < 2: # --- difficulty increases
+                            self.difficultyLevel = 2
+                            self.projectile.fireDelay = 200
+                            self.enemy.enemySpeed = float(5.9)
+                            self.enemy.enemySpawnRate = random.choice(range(700, 1100, 15))
+                            self.score += 20
 
+                self.screen.fill((0, 0, 0)) # --- Filling the screen with a black color
+                
                 self.player.draw(self.screen) # --- Drawing the player on the screen
                 self.projectile.draw(self.screen) # --- Drawing the missiles on the screen
                 self.enemy.draw(self.screen) # --- Drawing the enemies on the screen
