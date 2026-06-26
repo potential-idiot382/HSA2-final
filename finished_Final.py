@@ -10,7 +10,7 @@ class Player: # ----Player Class----
         self.playerHeight = 60
         self.playerX = (self.screenWidth // 2) - (self.playerWidth // 2)
         self.playerY = self.screenHeight - self.playerHeight - 10
-        self.playerSpeed = 6
+        self.playerSpeed = float(5.3)
         self.image = pygame.image.load("player_ship.png") # --- Loading the player image
         self.image = pygame.transform.scale(self.image, (self.playerWidth, self.playerHeight)) # --- Scales the player to the correct size
 
