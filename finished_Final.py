@@ -119,59 +119,58 @@ class GameWindow: # ---- Game Window Class ----
                 if event.type == pygame.QUIT: # --- Checking if the user has clicked the close button on the window
                     pygame.quit()
                     sys.exit() # --- Quits program
-
-                if self.is_running: # --- Updating positions of player, missiles, and enemies only if the game is running
-                    self.player.move() 
+                if self.is_running:
                     self.projectile.fire(event, self.player.playerX, self.player.playerY)
-                    self.projectile.move() # --- Calling the move function to move the missiles
 
-                    currentTime = pygame.time.get_ticks() # --- Getting the current time in milliseconds since the game started
-                    self.enemy.spawn(currentTime) # --- Calling the spawn function to spawn enemies at random x positions at the top of the screen
-                    self.enemy.move() # --- Calling the move function to move the enemies
+            if self.is_running: # --- Updating positions of player, missiles, and enemies only if the game is running
+                self.player.move() 
+                self.projectile.move() # --- Calling the move function to move the missiles
+
+                currentTime = pygame.time.get_ticks() # --- Getting the current time in milliseconds since the game started
+                self.enemy.spawn(currentTime) # --- Calling the spawn function to spawn enemies at random x positions at the top of the screen
+                self.enemy.move() # --- Calling the move function to move the enemies
                     
-                    for missile in self.projectile.missiles[:]: # --- Checking for collisions
-                        for enemy in self.enemy.enemies[:]: # -- Putting brackets around the colons allows for slicing within the program --
-                            if missile.colliderect(enemy):
-                                self.projectile.missiles.remove(missile)
-                                self.enemy.enemies.remove(enemy)
-                                self.score += 10
-                                break
+                for missile in self.projectile.missiles[:]: # --- Checking for collisions
+                    for enemy in self.enemy.enemies[:]: # -- Putting brackets around the colons allows for slicing within the program --
+                        if missile.colliderect(enemy):
+                            self.projectile.missiles.remove(missile)
+                            self.enemy.enemies.remove(enemy)
+                            self.score += 10
+                            break
                     
-                    p_rect = pygame.Rect(self.player.playerX, self.player.playerY, self.player.playerWidth, self.player.playerHeight)
-                    for enemy in self.enemy.enemies:
-                        if self.detectCollisions(p_rect, enemy):
-                            self.is_running = False # --- If the player collides with an enemy, the game stops running 
+                p_rect = pygame.Rect(self.player.playerX, self.player.playerY, self.player.playerWidth, self.player.playerHeight)
+                for enemy in self.enemy.enemies:
+                    if self.detectCollisions(p_rect, enemy):
+                        self.is_running = False # --- If the player collides with an enemy, the game stops running 
 
-                        if  self.score >= 1000 and self.difficultyLevel < 1: # --- difficulty increases
-                            self.difficultyLevel = 1
-                            self.projectile.fireDelay = 230
-                            self.enemy.enemySpeed = float(5.3)
-                            self.enemy.enemySpawnRate = random.choice(range(750, 1325, 20))
-                            self.score += 15
+                    if  self.score >= 250 and self.difficultyLevel < 1: # --- difficulty increases
+                        self.difficultyLevel = 1
+                        self.projectile.fireDelay = 230
+                        self.enemy.enemySpeed = float(5.3)
+                        self.enemy.enemySpawnRate = random.choice(range(750, 1325, 20))
+                        self.score += 15
                     
-                        if  self.score >= 5000 and self.difficultyLevel < 2: # --- difficulty increases
-                            self.difficultyLevel = 2
-                            self.projectile.fireDelay = 200
-                            self.enemy.enemySpeed = float(5.9)
-                            self.enemy.enemySpawnRate = random.choice(range(700, 1100, 15))
-                            self.score += 20
+                    if  self.score >= 400 and self.difficultyLevel < 2: # --- difficulty increases
+                        self.difficultyLevel = 2
+                        self.projectile.fireDelay = 200
+                        self.enemy.enemySpeed = float(5.9)
+                        self.enemy.enemySpawnRate = random.choice(range(700, 1100, 15))
+                        self.score += 20
 
-                self.screen.fill((0, 0, 0)) # --- Filling the screen with a black color
-                
-                self.player.draw(self.screen) # --- Drawing the player on the screen
-                self.projectile.draw(self.screen) # --- Drawing the missiles on the screen
-                self.enemy.draw(self.screen) # --- Drawing the enemies on the screen
+            self.screen.fill((0, 0, 0)) # --- Filling the screen with a black color
+            self.player.draw(self.screen) # --- Drawing the player on the screen
+            self.projectile.draw(self.screen) # --- Drawing the missiles on the screen
+            self.enemy.draw(self.screen) # --- Drawing the enemies on the screen
 
-                scoreText = self.font.render(f"Score: {self.score}", True, (255, 255, 255)) # --- Creating a text surface for the score
-                self.screen.blit(scoreText, (10, 10)) # --- Drawing the score on
+            scoreText = self.font.render(f"Score: {self.score}", True, (255, 255, 255)) # --- Creating a text surface for the score
+            self.screen.blit(scoreText, (10, 10)) # --- Drawing the score on
 
-                if not self.is_running: # --- If the game is not running, display "Game Over" message
-                    msg = self.font.render(f"Game Over!  – Final Score: {self.score}", True, (255, 0, 0)) # --- Creating a text surface for the game over message; displays final score
-                    self.screen.blit(msg, (self.screenWidth // 2 - 100, self.screenHeight // 2)) # - maybe add - 20 or -25 to center the text better ?????????
+            if not self.is_running: # --- If the game is not running, display "Game Over" message
+                msg = self.font.render(f"Game Over!  – Final Score: {self.score}", True, (255, 0, 0)) # --- Creating a text surface for the game over message; displays final score
+                self.screen.blit(msg, (self.screenWidth // 2 - 100, self.screenHeight // 2))
 
-                pygame.display.flip() # --- Updating the display
-
-                self.clock.tick(60) # --- Setting the frame rate to 60 frames per second
+            pygame.display.flip() # --- Updating the display
+            self.clock.tick(60) # --- Setting the frame rate to 60 frames per second
 
 if __name__ == "__main__":  # --- Entry point of the program
     game = GameWindow()
