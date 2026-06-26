@@ -47,7 +47,7 @@ class Projectile: # ----Missile Class----
             m_x = p_x + (self.playerWidth // 2) - (self.missileWidth // 2)
             m_y = p_y
             newMissile = pygame.Rect(m_x, m_y, self.missileWidth, self.missileHeight) # --- Calculating the x and y position of the missile based on the player's position and the missile's width and height
-            self.missiles.append(newMissile) # --- adds a missile
+            self.missiles.append(newMissile)
 
     def move(self):
         for missile in self.missiles:
