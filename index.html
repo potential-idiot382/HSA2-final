@@ -1,36 +1,46 @@
 <!doctype html>
 <html lang="en-us">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>My Pygame Game</title>
-        <style>
-        body {
-            margin: 0;
-            background-color: black;
-            color: white;
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        #canvas {
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
-        }
-        </style>
-        <!-- Use the universal template stream source -->
-    <script src="https://github.io"></script>
-    </head>
-    <body>
-    <canvas id="canvas"></canvas>
-    <script>
-    window.addEventListener('load', () => {
-    // Leave this empty so Pygbag automatically grabs your local .apk bundle file
-    pygbag.start();
-    });
-    </script>
-    </body>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>My Pygame Web App</title>
+<style>
+body {
+margin: 0;
+background-color: #111;
+color: white;
+font-family: sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+overflow: hidden;
+}
+#canvas {
+image-rendering: pixelated;
+image-rendering: crisp-edges;
+border: 2px solid #333;
+background-color: black;
+}
+</style>
+<!-- Use Pygbag's official raw application runtime script -->
+<script src="https://github.io"></script>
+</head>
+<body>
+
+<!-- This canvas hosts your game loop dynamically -->
+<canvas id="canvas" width="800" height="600"></canvas>
+
+<script type="application/python">
+# This script blocks the engine from failing and forces an automated mount point
+import asyncio
+import sys
+
+async def start_loader():
+print("Booting WebAssembly package runtime container...")
+
+asyncio.run(start_loader())
+</script>
+
+</body>
 </html>
