@@ -14,7 +14,7 @@ class Player: # ----Player Class----
         self.image = pygame.image.load("player_ship.png") # --- Loading the player image
         self.image = pygame.transform.scale(self.image, (self.playerWidth, self.playerHeight)) # --- Scales the player to the correct size
 
-    def  move(self):   # --- creating Move function to move the player left and right
+    def move(self):   # --- creating Move function to move the player left and right
         pressed =  pygame.key.get_pressed() # --- Setting variable for shorter code,, need to get the state of all keyboard keys
         if (pressed[pygame.K_LEFT] or pressed[pygame.K_a]) and self.playerX > 0:   # --- Moving Player left
             self.playerX -= self.playerSpeed
@@ -62,7 +62,7 @@ class Enemy: # ----Enemy Class ----
     def __init__(self, worldWidth, worldHeight):
         self.enemyWidth = (125 // 3)
         self.enemyHeight = 50
-        self.enemySpeed = random.randint(float(4.5), float(4.7))
+        self.enemySpeed = float(4.7)
         self.enemies = []
         self.worldWidth = worldWidth
         self.worldHeight = worldHeight
