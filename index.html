@@ -23,12 +23,12 @@
     </head>
     <body>
         <div id="transfer">Loading WebAssembly Runtime...</div>
-        <canvas id="canvas" style="display:none;"></canvas>
+        <canvas id="canvas"></canvas>
 
         <script>
-        // Automatically detect and boot the generated game archive
-        window.addEventListener('load', () => {
-        pygbag.start();
+            // Automatically detect and boot the generated game archive
+            window.addEventListener('load', () => {
+            pygbag.start("finalproject2");
         });
         </script>
     </body>
