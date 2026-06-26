@@ -1,35 +1,36 @@
 <!doctype html>
 <html lang="en-us">
     <head>
-    </head><meta charset="utf-8">
+        <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>My Pygame Web Game</title>
+        <title>My Pygame Game</title>
         <style>
-            body {
-                margin: 0;
-                background-color: black;
-                color: rgb(139, 123, 123);
-                font-family: sans-serif;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                overflow: hidden;
-            }
-            #transfer { color: #aaa; text-align: center; }
+        body {
+            margin: 0;
+            background-color: black;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #canvas {
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+        }
         </style>
-        <!-- Load Pygbag's underlying runtime system -->
-        <script src="https://github.io"></script>
+        <!-- Use the universal template stream source -->
+    <script src="https://github.io"></script>
     </head>
     <body>
-        <div id="transfer">Loading WebAssembly Runtime...</div>
-        <canvas id="canvas"></canvas>
-
-        <script>
-            // Automatically detect and boot the generated game archive
-            window.addEventListener('load', () => {
-            pygbag.start("finalproject2");
-        });
-        </script>
+    <canvas id="canvas"></canvas>
+    <script>
+    window.addEventListener('load', () => {
+    // Leave this empty so Pygbag automatically grabs your local .apk bundle file
+    pygbag.start();
+    });
+    </script>
     </body>
 </html>
