@@ -108,7 +108,7 @@ class GameWindow: # ---- Game Window Class ----
         self.score = 0 # --- Create a score variable to keep track of the player's score
         self.difficultyLevel = 0
         self.is_running = True
-        self.font = pygame.font.SysFont("Crimson Pro", 26) # --- Create a font object for displaying the score
+        self.font = pygame.font.SysFont("Gotham", 26) # --- Create a font object for displaying the score
     
     def detectCollisions(self, rect1, rect2): # --- Returns True if the two rectangles collide, False otherwise
         return rect1.colliderect(rect2)
