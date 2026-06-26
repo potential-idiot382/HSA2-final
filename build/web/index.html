@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+    </head><meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>My Pygame Web Game</title>
+        <style>
+            body {
+                margin: 0;
+                background-color: black;
+                color: rgb(139, 123, 123);
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                overflow: hidden;
+            }
+            #transfer { color: #aaa; text-align: center; }
+        </style>
+        <!-- Load Pygbag's underlying runtime system -->
+        <script src="https://github.io"></script>
+    </head>
+    <body>
+        <div id="transfer">Loading WebAssembly Runtime...</div>
+        <canvas id="canvas" style="display:none;"></canvas>
+
+        <script>
+        // Automatically detect and boot the generated game archive
+        window.addEventListener('load', () => {
+        pygbag.start();
+        });
+        </script>
+    </body>
+</html>

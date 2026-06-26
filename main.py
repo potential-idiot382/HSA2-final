@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import asyncio
 
 class Player: # ----Player Class----
     def  __init__(self, screenWidth, screenHeight): # --- Setting up the attributes for the player entity
@@ -113,7 +114,7 @@ class GameWindow: # ---- Game Window Class ----
     def detectCollisions(self, rect1, rect2): # --- Returns True if the two rectangles collide, False otherwise
         return rect1.colliderect(rect2)
 
-    def runGame(self):
+    async def runGame(self):
         while True: # --- Putting in the Game Loop
             for event in pygame.event.get(): # --- Handling inputs and events
                 if event.type == pygame.QUIT: # --- Checking if the user has clicked the close button on the window
@@ -171,7 +172,11 @@ class GameWindow: # ---- Game Window Class ----
 
             pygame.display.flip() # --- Updating the display
             self.clock.tick(60) # --- Setting the frame rate to 60 frames per second
+            await asyncio.sleep(0)
+
+async def main():
+    game = GameWindow()
+    await game.runGame()
 
 if __name__ == "__main__":  # --- Entry point of the program
-    game = GameWindow()
-    game.runGame()
+    asyncio.run(main())
