@@ -26,8 +26,8 @@ class Player: # ----Player Class----
 
 class Projectile: # ----Missile Class----
     def __init__(self, playerWidth, playerHeight):
-        self.missileWidth = 5
-        self.missileHeight = 10
+        self.missileWidth = 7
+        self.missileHeight = 14
         self.missileSpeed = 8
         self.missiles = []
         self.playerWidth = playerWidth
@@ -35,7 +35,7 @@ class Projectile: # ----Missile Class----
         self.image = pygame.image.load("laser.png") # --- Loading the missile image
         self.image = pygame.transform.scale(self.image, (self.missileWidth, self.missileHeight)) # --- Scales the missile to the correct size
         self.lastShot =  0
-        self.fireDelay = 300 # --- minimum amount of shots that can be fired via
+        self.fireDelay = 270 # --- minimum amount of shots that can be fired via
 
     
     def fire(self, event, p_x, p_y):
@@ -62,7 +62,7 @@ class Enemy: # ----Enemy Class ----
     def __init__(self, worldWidth, worldHeight):
         self.enemyWidth = (125 // 3)
         self.enemyHeight = 50
-        self.enemySpeed = float(4.5)
+        self.enemySpeed = random.randint(float(4.5), float(4.7))
         self.enemies = []
         self.worldWidth = worldWidth
         self.worldHeight = worldHeight
@@ -152,7 +152,7 @@ class GameWindow: # ---- Game Window Class ----
                     
                     if  self.score >= 400 and self.difficultyLevel < 2: # --- difficulty increases
                         self.difficultyLevel = 2
-                        self.projectile.fireDelay = 200
+                        self.projectile.fireDelay = 190
                         self.enemy.enemySpeed = float(5.9)
                         self.enemy.enemySpawnRate = random.choice(range(700, 1100, 15))
                         self.score += 20
